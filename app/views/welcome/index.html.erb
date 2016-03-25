@@ -1,0 +1,24 @@
+<h1>Bienvenido!</h1>
+
+<% if @info.present? %>
+  <div> 
+    <p> <%= @info %> </p>
+  </div>	
+<% end %>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= form_for(:user, url: users_login_path) do |f| %>
+
+      <%= f.label :email %>
+      <%= f.email_field :email, class: 'form-control' %>
+
+      <%= f.label :password %>
+      <%= f.password_field :password, class: 'form-control' %>
+
+      <%= f.submit "Log in", class: "btn btn-primary" %>
+    <% end %>
+
+    <p>Sin cuenta? <%= link_to "Registrate!", users_register_path %></p>
+  </div>
+</div>
