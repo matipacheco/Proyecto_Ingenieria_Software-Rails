@@ -11,7 +11,7 @@ class UsersController < ApplicationController
   def login
   	@user = User.find_by(email: params[:user][:email])
     if @user && @user.password == params[:user][:password]
-      @loged? = true
+      @loged  = true
       render 'welcome/index'
     elsif @user && @user.password != params[:user][:password]
       @info   = "Ususario o clave incorrecta, intentelo de nuevo."
