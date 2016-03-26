@@ -1,9 +1,10 @@
 class User < ActiveRecord::Base
-  has_one :group
+  has_one  :group
+  has_many :news
 
   attr_accessible :name, :surname,
   					      :email, :group_id
-  
+
   def admin?
   	group_id == 1
   end
