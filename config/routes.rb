@@ -5,7 +5,12 @@ Rails.application.routes.draw do
 
   get  'users/register' => 'users#register'
   post 'users/new'      => 'users#new'
-  post 'users/login'    => 'users#login'
+
+  get  'login'          => 'sessions#new'
+  post 'login'          => 'sessions#create'
+  post 'logout'         => 'sessions#destroy'
+
+  post 'contents/upload' => 'contents#upload'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

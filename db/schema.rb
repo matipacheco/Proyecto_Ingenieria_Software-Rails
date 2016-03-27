@@ -11,18 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160326015848) do
+ActiveRecord::Schema.define(version: 20160327192826) do
 
-  create_table "groups", force: true do |t|
-    t.string   "name"
+  create_table "contents", force: true do |t|
+    t.string   "description"
+    t.string   "url"
+    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "news", force: true do |t|
-    t.string   "description"
-    t.string   "url"
-    t.integer  "user_id"
+  create_table "groups", force: true do |t|
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -35,7 +35,6 @@ ActiveRecord::Schema.define(version: 20160326015848) do
     t.integer  "group_id"
     t.string   "name"
     t.string   "surname"
-    t.boolean  "loged"
   end
 
 end

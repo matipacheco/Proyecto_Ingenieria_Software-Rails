@@ -1,0 +1,19 @@
+<% if @info.present? %>
+  <div>
+    <div> 
+      <p> <%= @info %> </p>
+    </div>
+  </div>
+<% end %>
+
+<div>
+  <div>
+    <%= form_for(:session, url: login_path) do |f| %>
+      <%= f.label :Email %>
+      <%= f.email_field :email, class: 'form-control' %>
+      <%= f.label :Clave %>
+      <%= f.password_field :password, class: 'form-control' %>
+      <%= f.submit "Log in", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>

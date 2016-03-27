@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
   has_one  :group
-  has_many :news
+  has_many :contents
 
   attr_accessible :name, :surname,
   					      :email, :group_id
@@ -21,4 +21,7 @@ class User < ActiveRecord::Base
     group_id == 4
   end  
 
+  def password_auth password
+    self.password == password
+  end
 end

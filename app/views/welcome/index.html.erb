@@ -1,31 +1,51 @@
 <h1>Bienvenido </h1>
-<% if @user and @loged %>
-  <h2>, <%= @user.name %> </h2>
+<% if logged_in? %>
+  <h3>, <%= current_user.name %> </h3<>
 <% end %>
 
-<% if @info.present? %>
-  <div>
-    <div> 
-      <p> <%= @info %> </p>
-    </div>
-  </div>
-<% end %>
-
-<% unless @loged %>
+<% unless logged_in? %>
   <div class="row">
     <div class="col-md-6 col-md-offset-3">
-      <%= form_for(:user, url: users_login_path) do |f| %>
-
-        <%= f.label :email %>
-        <%= f.email_field :email, class: 'form-control' %>
-
-        <%= f.label :password %>
-        <%= f.password_field :password, class: 'form-control' %>
-
-        <%= f.submit "Log in", class: "btn btn-primary" %>
+      <%= form_for(:sessions, url: login_path, method: :get) do |f| %>
+        <%= f.submit "Ingresar", class: "btn btn-primary" %>
       <% end %>
-
       <p>Sin cuenta? <%= link_to "Registrate!", users_register_path %></p>
     </div>
   </div>
 <% end %>
+
+<% if current_user && current_user.editor? %>
+  <div>
+    <div> 
+      <p> Sube nuevo contenido!</p>
+      <div>
+        <%= form_for(:content, url: contents_upload_path) do |f| %>
+          <%= f.text_field   :description, class: 'form-control' %>
+          <%= f.hidden_field :user_id,     value: @user.id %>
+          <%= f.submit "Publicar", class: "btn btn-primary" %>
+        <% end %>
+      </div>      
+    </div>
+  </div>
+<% end %>
+
+<div>
+  <div> 
+    <h3> Noticias </h3>
+    <div>
+      <% Content.all.each_with_index do |content, index| %>
+        <%= index + 1 %>
+        <%= content.description %>
+        <br>
+      <% end %>
+    </div>      
+  </div>
+</div>
+
+<div>
+  <div>
+    <%= form_for(:user, url: logout_path) do |f| %>
+      <%= f.submit "Cerra sesión", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>
