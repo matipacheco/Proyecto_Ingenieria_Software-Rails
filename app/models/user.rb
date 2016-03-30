@@ -24,4 +24,8 @@ class User < ActiveRecord::Base
   def password_auth password
     self.password == password
   end
+
+  def get_name
+    self.name + " " + self.surname
+  end
 end

@@ -13,6 +13,9 @@ Rails.application.routes.draw do
   post 'contents/upload'  => 'contents#upload'
   post 'contents/destroy' => 'contents#destroy'
 
+  post 'comments/new'     => 'comments#new'
+  post 'comments/respond' => 'comments#respond'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

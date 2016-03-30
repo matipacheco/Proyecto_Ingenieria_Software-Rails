@@ -1,6 +1,15 @@
 <h1>Bienvenido </h1>
+
 <% if logged_in? %>
-  <h3>, <%= current_user.name %> </h3<>
+  <h3>, <%= current_user.name %> </h3>
+
+  <div>
+    <div>
+      <%= form_for(:user, url: logout_path) do |f| %>
+        <%= f.submit "Cerra sesión", class: "btn btn-primary" %>
+      <% end %>
+    </div>
+  </div>
 <% end %>
 
 <% unless logged_in? %>
@@ -39,8 +48,8 @@
           <% if current_user && current_user.editor? %>
             <div> 
               <%= form_for(:content, url: contents_destroy_path) do |f| %>
-                <%= f.submit "Eliminar Noticia", class: "btn btn-primary" %>
                 <%= f.hidden_field :content_id,  value: content.id %>
+                <%= f.submit "Eliminar Noticia", class: "btn btn-primary" %>
               <% end %>            
             </div>
           <% end %>  
@@ -52,8 +61,25 @@
 
 <div>
   <div>
-    <%= form_for(:user, url: logout_path) do |f| %>
-      <%= f.submit "Cerra sesión", class: "btn btn-primary" %>
+    <h3> Foro </h3>
+    <% if logged_in? %>
+      <div> 
+        <%= form_for(:comment, url: comments_new_path) do |f| %>
+          <%= f.text_area    :description, class: 'form-control' %>
+          <%= f.hidden_field :user_id,     value: current_user.id %>
+          <%= f.submit "Iniciar Hilo",     class: "btn btn-primary" %>
+        <% end %>            
+      </div>
     <% end %>
+    <div>
+      <ul>
+        <% Comment.all.each do |comment| %>
+          <li>
+            <b> <%= User.find(comment.user_id).get_name %> </b>
+            <div> <%= comment.description %> </div>
+          </li>
+        <% end %>
+      </ul>
+    </div>     
   </div>
 </div>

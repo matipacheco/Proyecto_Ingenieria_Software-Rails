@@ -1,6 +1,7 @@
 class ContentsController < ApplicationController
   def upload
-  	Content.create(description: params[:content][:description], user_id: params[:content][:user_id])
+  	content = Content.create(description: params[:content][:description])
+    content.update_attribute(:user_id, params[:content][:user_id].to_i)
     redirect_to root_url
   end
 
