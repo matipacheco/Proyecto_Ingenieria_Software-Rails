@@ -20,8 +20,8 @@
       <p> Sube nuevo contenido!</p>
       <div>
         <%= form_for(:content, url: contents_upload_path) do |f| %>
-          <%= f.text_field   :description, class: 'form-control' %>
-          <%= f.hidden_field :user_id,     value: @user.id %>
+          <%= f.text_area   :description, class: 'form-control' %>
+          <%= f.hidden_field :user_id,     value: current_user.id %>
           <%= f.submit "Publicar", class: "btn btn-primary" %>
         <% end %>
       </div>      
@@ -35,7 +35,7 @@
     <div>
       <% Content.all.each_with_index do |content, index| %>
         <%= index + 1 %>
-        <%= content.description %>
+        <%= auto_link(content.description) %>
         <br>
       <% end %>
     </div>      

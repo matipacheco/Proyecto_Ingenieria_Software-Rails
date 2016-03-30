@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'rails_autolink', '~> 1.1', '>= 1.1.6'
 gem 'cancan', '1.6.9'
 gem 'pry-rails'
 gem 'rails', '4.1.1'
