@@ -32,13 +32,21 @@
 <div>
   <div> 
     <h3> Noticias </h3>
-    <div>
-      <% Content.all.each_with_index do |content, index| %>
-        <%= index + 1 %>
-        <%= auto_link(content.description) %>
-        <br>
+    <ul>
+      <% Content.all.each do |content| %>
+        <li>
+          <div> <%= auto_link(content.description) %> </div>
+          <% if current_user && current_user.editor? %>
+            <div> 
+              <%= form_for(:content, url: contents_destroy_path) do |f| %>
+                <%= f.submit "Eliminar Noticia", class: "btn btn-primary" %>
+                <%= f.hidden_field :content_id,  value: content.id %>
+              <% end %>            
+            </div>
+          <% end %>  
+        </li>
       <% end %>
-    </div>      
+    </ul>      
   </div>
 </div>
 
