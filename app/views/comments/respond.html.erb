@@ -1,0 +1,18 @@
+<b> <%= User.find(@comment.user_id).get_name %> </b>
+
+<div> <%= @comment.description %> </div>
+
+<% if @comment.responses.any? %>
+  <% @comment.responses.each do |response| %>
+    <div> <%= response.description %>  </div>
+  <% end %>
+<% end %>
+
+<div> 
+  <%= form_for(:response, url: comments_create_response_path) do |f| %>
+    <%= f.text_area    :description, class: 'form-control' %>
+    <%= f.hidden_field :comment_id,  value: @comment.id %>
+    <%= f.hidden_field :user_id,     value: current_user.id %>
+    <%= f.submit "Responder", class: "btn btn-primary" %>
+  <% end %>            
+</div>

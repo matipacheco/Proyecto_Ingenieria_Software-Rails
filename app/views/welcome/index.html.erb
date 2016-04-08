@@ -6,7 +6,7 @@
   <div>
     <div>
       <%= form_for(:user, url: logout_path) do |f| %>
-        <%= f.submit "Cerra sesión", class: "btn btn-primary" %>
+        <%= f.submit "Cerrar sesión", class: "btn btn-primary" %>
       <% end %>
     </div>
   </div>
@@ -28,9 +28,14 @@
     <div> 
       <p> Sube nuevo contenido!</p>
       <div>
-        <%= form_for(:content, url: contents_upload_path) do |f| %>
-          <%= f.text_area   :description, class: 'form-control' %>
+        <%= form_for(:content, html: { multipart: true }, url: contents_upload_path) do |f| %>
+          <%= f.text_area    :description, class: 'form-control' %>
           <%= f.hidden_field :user_id,     value: current_user.id %>
+          <br>
+          <%= f.fields_for :content_attachments do |p| %>
+            <%= p.file_field :avatar  , multiple: true, accept: "image/jpeg, image/jpg, image/gif, image/png", name: "content_attachments[avatar][]" %>
+          <% end %>
+          <br>
           <%= f.submit "Publicar", class: "btn btn-primary" %>
         <% end %>
       </div>      
@@ -45,6 +50,15 @@
       <% Content.all.each do |content| %>
         <li>
           <div> <%= auto_link(content.description) %> </div>
+
+          <% if content.content_attachments.any? %>
+            <div> 
+              <% content.content_attachments.each do |p| %>
+                <%= image_tag p.avatar %>
+              <% end %>            
+            </div>
+          <% end %> 
+
           <% if current_user && current_user.editor? %>
             <div> 
               <%= form_for(:content, url: contents_destroy_path) do |f| %>
@@ -66,8 +80,8 @@
       <div> 
         <%= form_for(:comment, url: comments_new_path) do |f| %>
           <%= f.text_area    :description, class: 'form-control' %>
-          <%= f.hidden_field :user_id,     value: current_user.id %>
-          <%= f.submit "Iniciar Hilo",     class: "btn btn-primary" %>
+          <%= f.hidden_field :user_id,     value: current_user.id %> <br>
+          <%= f.submit "Realizar comentario",     class: "btn btn-primary" %>
         <% end %>            
       </div>
     <% end %>
@@ -76,7 +90,21 @@
         <% Comment.all.each do |comment| %>
           <li>
             <b> <%= User.find(comment.user_id).get_name %> </b>
+            
             <div> <%= comment.description %> </div>
+
+            <% if logged_in? %>
+              <div> 
+                <%= form_for(:comment, url: comments_respond_path, method: :put) do |f| %>
+                  <%= f.hidden_field :comment_id,  value: comment.id %>
+                  <%= f.submit "Responder", class: "btn btn-primary" %>
+                <% end %>            
+              </div>
+            <% end %>
+
+            <% comment.responses.each do |response| %>
+              <div> <%= response.description %>  </div>
+            <% end %>    
           </li>
         <% end %>
       </ul>

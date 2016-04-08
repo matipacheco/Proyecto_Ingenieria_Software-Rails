@@ -14,7 +14,8 @@ Rails.application.routes.draw do
   post 'contents/destroy' => 'contents#destroy'
 
   post 'comments/new'     => 'comments#new'
-  post 'comments/respond' => 'comments#respond'
+  put  'comments/respond' => 'comments#respond'
+  post 'comments/create_response' => 'comments#create_response'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
