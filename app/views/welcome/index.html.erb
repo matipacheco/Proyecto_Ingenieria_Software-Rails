@@ -76,7 +76,14 @@
 <div>
   <div>
     <h3> Foro </h3>
-    <% if logged_in? %>
+
+    <% if Comment.all.none? %>
+      <div>
+        Aún no hay comentarios!
+      </div>
+    <% end %>
+    
+    <% if logged_in? && (current_user.regular_user? or current_user.privileged_user?) %>
       <div> 
         <%= form_for(:comment, url: comments_new_path) do |f| %>
           <%= f.text_area    :description, class: 'form-control' %>
@@ -85,6 +92,7 @@
         <% end %>            
       </div>
     <% end %>
+    
     <div>
       <ul>
         <% Comment.all.each do |comment| %>
@@ -108,6 +116,7 @@
           </li>
         <% end %>
       </ul>
-    </div>     
+    </div>
+
   </div>
 </div>
