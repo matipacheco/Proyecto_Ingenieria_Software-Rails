@@ -1,4 +1,4 @@
-<%if current_user.admin? %>
+<% if current_user.admin? %>
   <h3> Registra un nuevo editor </h3>
   <div>
     <div>
@@ -16,14 +16,55 @@
         <%= f.submit "Registrar", class: "btn btn-primary" %>
       <% end %>
     </div>
+    <small>La clave por defecto es 'editor'. El editor puede cambiar su clave desde su perfil.</small>
+  </div>
+
+  <div>
+    <div>
+      <% if PermissionRequest.not_checked.any? %>
+        <h3> Los siguientes usuarios desean cambiar su permiso </h3>
+        
+        <table border="1">
+          <thead>
+            <tr>
+              <th> Nombre </th>
+              <th> Correo </th>
+              <th>        </th>
+              <th>        </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% PermissionRequest.all.each do |request| %>
+              <% user = User.find(request.user_id) %>
+              <tr>
+                <td> <%= user.get_name %> </td>
+                <td> <%= user.email    %> </td>
+                <td> 
+                  <%= form_for(:grant, url: me_grant_path, method: :post) do |f| %>
+                    <%= f.hidden_field :user_id, value: request.user_id %>
+                    <%= f.submit "Aceptar", class: "btn btn-primary" %>
+                  <% end %>      
+                </td>
+                <td> 
+                  <%= form_for(:deny, url: me_deny_path, method: :post) do |f| %>
+                    <%= f.hidden_field :user_id, value: request.user_id %>
+                    <%= f.submit "Rechazar", class: "btn btn-primary" %>
+                  <% end %>      
+                </td>                
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+
+      <% end %>
+    </div>
   </div>
 
 
 
 
-
-
-<%else %>
+<% else %>
   <h3> Cambia tu contraseña </h3>
 
   <div>
@@ -35,24 +76,23 @@
         <%= f.submit "Actualizar", class: "btn btn-primary" %>
       <% end %>
     </div>
-    <small>La clave por defecto es 'editor'. El editor puede cambiar su clave desde su perfil.</small>
   </div>
   <br>
 
   <div>
     <% request = PermissionRequest.find_by(user_id: current_user.id) %>
-    <%if request.present? %>
+    <% if request.present? %>
       <div>
-        <%if !request.checked and !request.granted %>
+        <% if !request.checked and !request.granted %>
           Tu solicitud está siendo evaluada
-        <%elsif request.checked and !request.granted %>
+        <% elsif request.checked and !request.granted %>
           Solicitud rechazada
-        <%elsif request.checked and request.granted %>
+        <% elsif request.checked and request.granted %>
           Solicitud aceptada. Desde ahora puedes enriquecer el contenido de nuestro sitio...
-        <%end%>
+        <% end %>
       </div>
 
-    <%else%>
+    <% else %>
       <div>
         <h3> Elevar solicitud de permisos</h3>
         <%= form_for(:permission, url: permission_create_path) do |f| %>
@@ -60,6 +100,6 @@
           <%= f.submit "Enviar", class: "btn btn-primary" %>
         <% end %>      
       </div>  
-    <%end%>
+    <% end %>
   </div>
-<%end%>
+<% end %>

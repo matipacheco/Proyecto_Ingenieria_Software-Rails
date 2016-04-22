@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   get  'me'             => 'users#me'
   post 'me/update'      => 'users#update'
   post 'me/new_editor'  => 'users#create_editor'
+  post 'me/grant'       => 'users#grant_permission'
+  post 'me/deny'        => 'users#deny_permission'
 
   put  'login'          => 'sessions#new'
   post 'login'          => 'sessions#create'

@@ -36,6 +36,17 @@ class UsersController < ApplicationController
                           group_id: 2) 
     editor.update_attribute(:password, "editor")
     @success = "Usuario registrado exitosamente"
+    redirect_to me_path
+  end
+
+  def grant_permission
+    PermissionRequest.find_by(user_id: params[:grant][:user_id].to_i).update_attributes(checked: true, granted: true)
+    User.find(params[:grant][:user_id].to_i).update_attribute(:group_id, 3)
+    redirect_to me_path   
+  end
+
+  def deny_permission
+    PermissionRequest.find_by(user_id: params[:deny][:user_id].to_i).update_attributes(checked: true)
     redirect_to me_path   
   end
 end
