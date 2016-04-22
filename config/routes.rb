@@ -22,7 +22,7 @@ Rails.application.routes.draw do
   put  'comments/respond' => 'comments#respond'
   post 'comments/create_response' => 'comments#create_response'
 
-  put '/search' => 'search#search'
+  get 'search' => 'search#search'
 
   post 'permission/create'  => 'permissions#create'
 

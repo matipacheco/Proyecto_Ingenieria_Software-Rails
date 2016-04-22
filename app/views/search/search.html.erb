@@ -1,0 +1,9 @@
+<% if @results.empty? %>
+  <h2> No se encontraron resultados para esta búsqueda </h2>
+<% else %>
+  <ul>
+    <% @results.each do |cultor, url| %>
+    	<li> <%= link_to cultor, url %> </li>
+    <% end%>
+  </ul>
+<% end%>
