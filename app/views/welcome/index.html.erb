@@ -1,7 +1,7 @@
 <h1>Bienvenido </h1>
 
 <% if logged_in? %>
-  <h3>, <%= link_to(current_user.name, me_path, method: :put) %> </h3>
+  <h3>, <%= link_to(current_user.name, me_path) %> </h3>
 
   <div>
     <div>
