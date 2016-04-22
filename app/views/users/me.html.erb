@@ -1,0 +1,21 @@
+<h1> Cambia tu contraseña </h1>
+
+<div>
+  <div>
+    <%= form_for(:user_data, url: me_update_path) do |f| %>
+      <%= f.hidden_field :user_id, value: current_user.id %>
+      <%= f.label :Contraseña %>
+      <%= f.password_field :password, class: 'form-control' %>
+      <%= f.submit "Actualizar", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>
+<br>
+<div>
+  <div>
+    if no he enviado solicitud<br>
+    Solicita upgrade<br>
+    else<br>
+    solicitud en proceso<br>
+  </div>
+</div>
