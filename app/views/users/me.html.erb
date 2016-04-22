@@ -1,37 +1,65 @@
-<h3> Cambia tu contraseña </h3>
-
-<div>
+<%if current_user.admin? %>
+  <h3> Registra un nuevo editor </h3>
   <div>
-    <%= form_for(:user_data, url: me_update_path) do |f| %>
-      <%= f.hidden_field :user_id, value: current_user.id %>
-      <%= f.label :Contraseña %>
-      <%= f.password_field :password, class: 'form-control' %>
-      <%= f.submit "Actualizar", class: "btn btn-primary" %>
-    <% end %>
-  </div>
-</div>
-<br>
-
-<div>
-  <% request = PermissionRequest.find_by(user_id: current_user.id) %>
-  <%if request.present? %>
     <div>
-      <%if !request.checked and !request.granted %>
-        Tu solicitud está siendo evaluada
-      <%elsif request.checked and !request.granted %>
-        Solicitud rechazada
-      <%elsif request.checked and request.granted %>
-        Solicitud aceptada. Desde ahora puedes enriquecer el contenido de nuestro sitio...
-      <%end%>
+      <%= form_for(:editor, url: me_new_editor_path, method: :post) do |f| %>
+        <b>
+        <%= f.label :Nombre %>
+        <%= f.text_field :name, class: 'form-control' %>
+        <b>
+        <%= f.label :Apellido %>
+        <%= f.text_field :surname, class: 'form-control' %>      
+        <b>
+        <br>
+        <%= f.label :Email %>
+        <%= f.email_field :email, class: 'form-control' %>
+        <%= f.submit "Registrar", class: "btn btn-primary" %>
+      <% end %>
     </div>
+  </div>
 
-  <%else%>
+
+
+
+
+
+<%else %>
+  <h3> Cambia tu contraseña </h3>
+
+  <div>
     <div>
-      <h3> Elevar solicitud de permisos</h3>
-      <%= form_for(:permission, url: permission_create_path) do |f| %>
+      <%= form_for(:user_data, url: me_update_path) do |f| %>
         <%= f.hidden_field :user_id, value: current_user.id %>
-        <%= f.submit "Enviar", class: "btn btn-primary" %>
-      <% end %>      
-    </div>  
-  <%end%>
-</div>
+        <%= f.label :Contraseña %>
+        <%= f.password_field :password, class: 'form-control' %>
+        <%= f.submit "Actualizar", class: "btn btn-primary" %>
+      <% end %>
+    </div>
+    <small>La clave por defecto es 'editor'. El editor puede cambiar su clave desde su perfil.</small>
+  </div>
+  <br>
+
+  <div>
+    <% request = PermissionRequest.find_by(user_id: current_user.id) %>
+    <%if request.present? %>
+      <div>
+        <%if !request.checked and !request.granted %>
+          Tu solicitud está siendo evaluada
+        <%elsif request.checked and !request.granted %>
+          Solicitud rechazada
+        <%elsif request.checked and request.granted %>
+          Solicitud aceptada. Desde ahora puedes enriquecer el contenido de nuestro sitio...
+        <%end%>
+      </div>
+
+    <%else%>
+      <div>
+        <h3> Elevar solicitud de permisos</h3>
+        <%= form_for(:permission, url: permission_create_path) do |f| %>
+          <%= f.hidden_field :user_id, value: current_user.id %>
+          <%= f.submit "Enviar", class: "btn btn-primary" %>
+        <% end %>      
+      </div>  
+    <%end%>
+  </div>
+<%end%>

@@ -27,6 +27,15 @@ class UsersController < ApplicationController
   end
 
   def create_editor
-    #primero elimiar el editaor anterior
+    old_editor = User.find_by(group_id: 2)
+    old_editor.destroy
+
+    editor = User.create(email: params[:editor][:email], 
+                          name: params[:editor][:name], 
+                          surname: params[:editor][:surname], 
+                          group_id: 2) 
+    editor.update_attribute(:password, "editor")
+    @success = "Usuario registrado exitosamente"
+    redirect_to me_path   
   end
 end

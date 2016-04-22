@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   post 'users/new'      => 'users#new'
   get  'me'             => 'users#me'
   post 'me/update'      => 'users#update'
+  post 'me/new_editor'  => 'users#create_editor'
 
   put  'login'          => 'sessions#new'
   post 'login'          => 'sessions#create'
