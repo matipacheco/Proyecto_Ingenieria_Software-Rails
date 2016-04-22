@@ -1,7 +1,7 @@
 <h1>Bienvenido </h1>
 
 <% if logged_in? %>
-  <h3>, <%= current_user.name %> </h3>
+  <h3>, <%= link_to(current_user.name, me_path, method: :put) %> </h3>
 
   <div>
     <div>
@@ -21,6 +21,11 @@
       <p>Sin cuenta? <%= link_to "Registrate!", users_register_path %></p>
     </div>
   </div>
+<% end %>
+
+<%= form_for(:search, url: search_path, method: :put) do |f| %>
+  <%= f.text_field :looking_for, class: 'form-control' %>
+  <%= f.submit "Buscar", class: "btn btn-primary" %>
 <% end %>
 
 <% if current_user && current_user.editor? %>
@@ -88,7 +93,7 @@
         <%= form_for(:comment, url: comments_new_path) do |f| %>
           <%= f.text_area    :description, class: 'form-control' %>
           <%= f.hidden_field :user_id,     value: current_user.id %> <br>
-          <%= f.submit "Realizar comentario",     class: "btn btn-primary" %>
+          <%= f.submit "Publicar",     class: "btn btn-primary" %>
         <% end %>            
       </div>
     <% end %>
@@ -101,6 +106,16 @@
             
             <div> <%= comment.description %> </div>
 
+            <ul>
+                <% if comment.responses.any? %>
+                  <% comment.responses.each do |response| %>
+                    <li>
+                      <div> <%= response.description %>  </div>
+                    </li>
+                  <% end %>
+                <% end %>
+            </ul>
+
             <% if logged_in? %>
               <div> 
                 <%= form_for(:comment, url: comments_respond_path, method: :put) do |f| %>
@@ -109,10 +124,7 @@
                 <% end %>            
               </div>
             <% end %>
-
-            <% comment.responses.each do |response| %>
-              <div> <%= response.description %>  </div>
-            <% end %>    
+   
           </li>
         <% end %>
       </ul>
