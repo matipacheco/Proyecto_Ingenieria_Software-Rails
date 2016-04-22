@@ -11,6 +11,7 @@ gem 'therubyracer',  platforms: :ruby
 gem 'protected_attributes'
 gem 'carrierwave'
 gem 'rmagick'
+gem 'mechanize'
 
 gem 'jquery-rails'
 gem 'turbolinks'

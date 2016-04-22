@@ -2,11 +2,15 @@
 
 <div> <%= @comment.description %> </div>
 
-<% if @comment.responses.any? %>
-  <% @comment.responses.each do |response| %>
-    <div> <%= response.description %>  </div>
+<ul>
+  <% if @comment.responses.any? %>
+    <% @comment.responses.each do |response| %>
+      <li>
+        <div> <%= response.description %>  </div>
+      </li>
+    <% end %>
   <% end %>
-<% end %>
+</ul>
 
 <div> 
   <%= form_for(:response, url: comments_create_response_path) do |f| %>
