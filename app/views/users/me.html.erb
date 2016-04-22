@@ -14,7 +14,6 @@
 
 <div>
   <% request = PermissionRequest.find_by(user_id: current_user.id) %>
-  <%binding.pry%>
   <%if request.present? %>
     <div>
       <%if !request.checked and !request.granted %>
