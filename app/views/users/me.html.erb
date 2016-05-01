@@ -27,10 +27,11 @@
         <table border="1">
           <thead>
             <tr>
-              <th> Nombre </th>
-              <th> Correo </th>
-              <th>        </th>
-              <th>        </th>
+              <th> Nombre      </th>
+              <th> Correo      </th>
+              <th> Descripción </th>
+              <th>             </th>
+              <th>             </th>
             </tr>
           </thead>
 
@@ -38,8 +39,9 @@
             <% PermissionRequest.all.each do |request| %>
               <% user = User.find(request.user_id) %>
               <tr>
-                <td> <%= user.get_name %> </td>
-                <td> <%= user.email    %> </td>
+                <td> <%= user.get_name %>       </td>
+                <td> <%= user.email    %>       </td>
+                <td> <%= request.description %> </td>
                 <td> 
                   <%= form_for(:grant, url: me_grant_path, method: :post) do |f| %>
                     <%= f.hidden_field :user_id, value: request.user_id %>
@@ -96,9 +98,11 @@
       <div>
         <h3> Elevar solicitud de permisos</h3>
         <%= form_for(:permission, url: permission_create_path) do |f| %>
+          <%= f.text_field   :description %>
           <%= f.hidden_field :user_id, value: current_user.id %>
           <%= f.submit "Enviar", class: "btn btn-primary" %>
-        <% end %>      
+        <% end %>
+        <small> Describenos porqué quieres mejorar tu permiso </small>
       </div>  
     <% end %>
   </div>
