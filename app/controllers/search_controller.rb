@@ -10,13 +10,23 @@ class SearchController < ApplicationController
     form            = memoria_chilena.form('FormBusquedaAvanzada')
     form.keywords   = busqueda
     memoria_chilena = form.submit
-
-    mechanize 		= Mechanize.new
-    dibam     		= mechanize.get('http://www.dibam.cl/614/w3-channel.html')
-    form      		= dibam.form('searchForm')
-    form.keywords = busqueda
-    dibam   			= form.submit
 =end
+
+    mechanize       = Mechanize.new
+    bncatalogo      = mechanize.get('http://www.bncatalogo.cl/F?func=find-b-0&local_base=BNC')
+    form            = bncatalogo.form('form1')
+    form.request    = busqueda
+    bncatalogo      = form.submit
+
+    bncatalogo.links.each do |link|
+      if link.text == "Autor"
+        @results["Resultados en bncatalogo por Autor"] = link.href
+      end
+      if link.text == "Título"
+        @results["Resultados en bncatalogo por Título"] = link.href
+      end
+    end    
+
 
     mechanize   = Mechanize.new
     arpa_url		= 'http://arpa.ucv.cl/dic/'
