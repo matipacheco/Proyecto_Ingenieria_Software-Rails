@@ -8,11 +8,11 @@ class ContentsController < ApplicationController
       end
     end
     
-    redirect_to root_url
+    redirect_to news_url
   end
 
   def destroy
   	Content.destroy(params[:content][:content_id].to_i)
-  	redirect_to root_url
+  	redirect_to news_url
   end
 end

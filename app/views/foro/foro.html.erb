@@ -1,7 +1,6 @@
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,6 +19,9 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+
+
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -35,10 +37,10 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="#">Noticias</a>
+                        <a href="/news">Noticias</a>
                     </li>
                     <li>
-                        <a href="#">Foros</a>
+                        <a href="/foro">Foros</a>
                     </li>
                     <li>
                         <a href="#">Contacto</a>
@@ -59,10 +61,65 @@
         </div>
         <!-- /.container -->
     </nav>
- <div class="container">
+    <div class="container">
         
-        <div class="col-md-8">
+        <div class="col-md-12">
             <img class="img-responsive img-rounded" src="assets/logo.png" alt="">
         </div>
-</div>    
+    </div>
 </head>
+<div class="col-md-2"></div>
+<div class="col-md-4">
+  <div>
+    <h1> Foro </h1>
+
+    <% if Comment.all.none? %>
+      <div>
+        Aún no hay comentarios!
+      </div>
+    <% end %>
+    
+    <% if logged_in? && (current_user.regular_user? or current_user.privileged_user?) %>
+      <div> 
+        <%= form_for(:comment, url: comments_new_path) do |f| %>
+          <%= f.text_area    :description, class: 'form-control' %>
+          <%= f.hidden_field :user_id,     value: current_user.id %> <br>
+          <%= f.submit "Publicar",     class: "btn btn-primary" %>
+        <% end %>            
+      </div>
+    <% end %>
+    
+    <div>
+      <ul>
+        <% Comment.all.each do |comment| %>
+          <li>
+            <b> <%= User.find(comment.user_id).get_name %> </b>
+            
+            <div> <%= comment.description %> </div>
+
+            <ul>
+                <% if comment.responses.any? %>
+                  <% comment.responses.each do |response| %>
+                    <li>
+                      <div> <%= response.description %>  </div>
+                    </li>
+                  <% end %>
+                <% end %>
+            </ul>
+
+            <% if logged_in? %>
+              <div> 
+                <%= form_for(:comment, url: comments_respond_path, method: :put) do |f| %>
+                  <%= f.hidden_field :comment_id,  value: comment.id %>
+                  <%= f.submit "Responder", class: "btn btn-primary" %>
+                <% end %>            
+              </div>
+            <% end %>
+   
+          </li>
+        <% end %>
+      </ul>
+    </div>
+
+  </div>
+</div>

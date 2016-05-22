@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -65,45 +63,52 @@
     </nav>
     <div class="container">
         
-        <div class="col-md-8">
+        <div class="col-md-12">
             <img class="img-responsive img-rounded" src="assets/logo.png" alt="">
         </div>
-        <p>
-            <% if logged_in? %>
-            <h3>, <%= link_to(current_user.name, me_path) %> </h3>
-            <div>
-              <div>
-                <%= form_for(:user, url: logout_path) do |f| %>
-                <%= f.submit "Cerrar sesión", class: "btn btn-primary" %>
-                <% end %>
-              </div>
-            </div>
-            <% end %>
-            <% unless logged_in? %>
-                <%= form_for(:sessions, url: login_path, method: :put) do |f| %>
-                <%= f.submit "Ingresar", class: "btn btn-primary" %>
-                <% end %>
-                Sin cuenta? <%= link_to "Registrate!", users_register_path %>
-            <% end %>
-        </p>
     </div>
 </head>
 <body>
+
   <div class="container">
 
       <!-- Heading Row -->
       <div class="row">
-          <div class="col-md-8">
-              <img class="img-responsive img-rounded" src="assets/Biblioteca_nacional_1.JPG" alt="">
+        <h1>Seccion de Noticias</h1>
+          <div class="col-md-12">
+            <div class="thumbnail">
+                  <div class="caption">
+                  <h3>Noticias</h3>
+                  <ul>
+                    <% Content.all.each do |content| %>
+                      <li>
+                        <div> <%= auto_link(content.description) %> </div>
+
+                        <% if content.content_attachments.any? %>
+                          <div> 
+                            <% content.content_attachments.each do |p| %>
+                              <%= image_tag p.avatar %>
+                            <% end %>            
+                          </div>
+                        <% end %> 
+
+                        <% if current_user && (current_user.editor? or current_user.admin?) %>
+                          <div> 
+                            <%= form_for(:content, url: contents_destroy_path) do |f| %>
+                              <%= f.hidden_field :content_id,  value: content.id %>
+                              <%= f.submit "Eliminar Noticia", class: "btn btn-primary" %>
+                            <% end %>            
+                          </div>
+                        <% end %>  
+                      </li>
+                    <% end %>
+                  </ul>
+                  <p>
+                      <a href="#" class="btn btn-default">Ver Más</a>
+                  </p>
+                  </div>
+              </div>
           </div>
-          <!-- /.col-md-8 -->
-          <div class="col-md-4">
-              <h1>Noticia Principal</h1>
-              <img src="assets/canta_chile.png" alt="">
-              <p align="justify">El Archivo de Musica tiene un nuevo sitio web!</p>
-              <a class="btn btn-primary btn-lg" href="/news">Ver Más</a>
-          </div>
-          <!-- /.col-md-4 -->
       </div>
       <!-- /.row -->
       <hr>
@@ -112,10 +117,10 @@
       <div class="row">
           <div class="col-md-3 col-sm-6 hero-feature">
               <div class="thumbnail">
-                  <img src="assets/imagen2.jpg" alt="">
+                <img src="assets/imagen2.jpg" alt="">
                   <div class="caption">
-                  <h3> </h3>
-                  <p> </p>
+                  <h3>Noticia </h3>
+                  <p>Contenido de noticia.</p>
                   <p>
                       <a href="#" class="btn btn-default">Ver Más</a>
                   </p>
@@ -124,10 +129,10 @@
           </div>
           <div class="col-md-3 col-sm-6 hero-feature">
               <div class="thumbnail">
-                  <img src="assets/imagen3.jpg" alt="">
+                <img src="assets/imagen3.jpg" alt="">
                   <div class="caption">
-                  <h3> </h3>
-                  <p> </p>
+                  <h3>Noticia </h3>
+                  <p>Contenido de noticia.</p>
                   <p>
                       <a href="#" class="btn btn-default">Ver Más</a>
                   </p>
@@ -136,10 +141,10 @@
           </div>
           <div class="col-md-3 col-sm-6 hero-feature">
               <div class="thumbnail">
-                  <img src="assets/imagen4.jpg" alt="">
+                <img src="assets/imagen4.jpg" alt="">
                   <div class="caption">
-                  <h3> </h3>
-                  <p> </p>
+                  <h3>Noticia </h3>
+                  <p>Contenido de noticia.</p>
                   <p>
                       <a href="#" class="btn btn-default">Ver Más</a>
                   </p>
@@ -148,10 +153,10 @@
           </div>
           <div class="col-md-3 col-sm-6 hero-feature">
               <div class="thumbnail">
-                  <img src="assets/arpalogo.png" alt="">
+                <img src="assets/imagen5.jpg" alt="">
                   <div class="caption">
-                  <h3> </h3>
-                  <p> </p>
+                  <h3>Noticia</h3>
+                  <p>Contenido de noticia.</p>
                   <p>
                       <a href="#" class="btn btn-default">Ver Más</a>
                   </p>
@@ -162,3 +167,24 @@
       <!-- /.row -->
   </div>
 </body>
+
+<% if current_user && (current_user.editor? or current_user.admin?) %>
+<div class="col-md-2"></div>
+  <div class="col-md-6">
+    <div> 
+      <p> Formulario nueva noticia</p>
+      <div>
+        <%= form_for(:content, html: { multipart: true }, url: contents_upload_path) do |f| %>
+          <%= f.text_area    :description, class: 'form-control' %>
+          <%= f.hidden_field :user_id,     value: current_user.id %>
+          <br>
+          <%= f.fields_for :content_attachments do |p| %>
+            <%= p.file_field :avatar  , multiple: true, accept: "image/jpeg, image/jpg, image/gif, image/png", name: "content_attachments[avatar][]" %>
+          <% end %>
+          <br>
+          <%= f.submit "Publicar", class: "btn btn-primary" %>
+        <% end %>
+      </div>      
+    </div>
+  </div>
+<% end %>

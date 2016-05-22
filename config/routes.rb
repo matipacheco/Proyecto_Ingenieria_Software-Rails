@@ -26,6 +26,10 @@ Rails.application.routes.draw do
 
   post 'permission/create'  => 'permissions#create'
 
+  get 'news' => 'news#noticia'
+
+  get 'foro' => 'foro#foro'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
