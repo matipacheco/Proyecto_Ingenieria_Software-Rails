@@ -108,7 +108,7 @@
           </thead>
 
           <tbody>
-            <% PermissionRequest.all.each do |request| %>
+            <% PermissionRequest.not_checked.each do |request| %>
               <% user = User.find(request.user_id) %>
               <tr>
                 <td> <%= user.get_name %>       </td>
@@ -175,7 +175,7 @@
           <%= f.hidden_field :user_id, value: current_user.id %>
           <%= f.submit "Enviar", class: "btn btn-primary" %>
         <% end %>
-        <small> Describenos porqué quieres mejorar tu permiso </small>
+        <small> Describenos por qué quieres mejorar tu permiso </small>
       </div>  
     <% end %>
   </div>

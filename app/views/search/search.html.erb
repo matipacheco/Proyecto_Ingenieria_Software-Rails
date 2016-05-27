@@ -62,13 +62,41 @@
     
 </head>
 <body>
-<% if @results.empty? %>
+
+<% if @scraper_results.empty? and @results.empty? %>
   <h2> No se encontraron resultados para esta búsqueda </h2>
+
 <% else %>
   <ul>
-    <% @results.each do |cultor, url| %>
+    <% @scraper_results.each do |cultor, url| %>
     	<li> <%= link_to cultor, url %> </li>
     <% end%>
+
+    <% @results.each do |result| %>
+      <li>  
+        <b><%= result[0] %>: </b>
+        <%= result[1] %>
+        </p>
+        <small>Subido por: <%= result[2] %></small>
+      </li>
+    <% end%>    
   </ul>
 <% end%>
+
+
+<% if current_user.privileged_user? %>
+  <h2> Aporta con nuevo contenido! </h2>
+  <%= form_for(:contribution, url: add_contribution_path, method: :get) do |f| %>
+    <%= f.label :Nombre %>
+    <%= f.text_field :search_term %>
+    </p>
+    <small>, del Autor, Director, Cultor, Músico o Banda de la cual quieras escribir. </small>
+    </p>
+    <%= f.text_field :description %>
+    <%= f.hidden_field :user_id,   value: current_user.id %>
+    </p>
+    <%= f.submit "Enviar", class: "btn btn-primary" %>
+  <% end %>
+<% end%>
+
 </body>

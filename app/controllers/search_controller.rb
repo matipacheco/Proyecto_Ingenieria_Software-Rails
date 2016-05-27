@@ -1,7 +1,8 @@
 class SearchController < ApplicationController
 	require "i18n"
   def search
-  	@results = {}
+  	@scraper_results = {}
+    @results = []
   	busqueda = params[:search][:looking_for]
 
 =begin
@@ -20,10 +21,10 @@ class SearchController < ApplicationController
 
     bncatalogo.links.each do |link|
       if link.text == "Autor"
-        @results["Resultados en bncatalogo por Autor"] = link.href
+        @scraper_results["Resultados en bncatalogo por Autor"] = link.href
       end
       if link.text == "Título"
-        @results["Resultados en bncatalogo por Título"] = link.href
+        @scraper_results["Resultados en bncatalogo por Título"] = link.href
       end
     end    
 
@@ -37,8 +38,14 @@ class SearchController < ApplicationController
 
     arpa.links.each do |link|
     	if I18n.transliterate(link.text).downcase.match(busqueda).present?
-    		@results[link.text] = arpa_url + link.href
+    		@scraper_results[link.text] = arpa_url + link.href
     	end
+    end
+
+    VisitorContribution.all.each do |contribution|
+      if I18n.transliterate(contribution.search_term).downcase.match(busqueda).present?
+        @results.append([contribution.search_term, contribution.description, contribution.user.get_name])
+      end
     end
   end
 end

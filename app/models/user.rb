@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   has_one  :group
   has_many :contents
+  has_many :visitor_contributions
 
   attr_accessible :name, :surname,
   					      :email, :group_id
