@@ -29,4 +29,12 @@ Rails.application.routes.draw do
   get 'foro' => 'foro#foro'
 
   get 'add_contribution' => 'contributions#add_contribution'
+
+  post 'update'     => 'notifications#update'
+  post 'musico'     => 'notifications#musico'
+  post 'musicologo' => 'notifications#musicologo'
+  post 'melomano'   => 'notifications#melomano'
+  get 'lists'       => 'notifications#watch_lists'
+  get 'send_mails'  => 'notifications#send_mail'
+  post 'remove'     => 'notifications#remove_form_list'
 end

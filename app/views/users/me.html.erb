@@ -135,7 +135,10 @@
     </div>
   </div>
 
-
+  <br>
+  <%= form_for(:watch_lists, url: lists_path, method: :get) do |f| %>
+    <%= f.submit "Ver Listas de Correos", class: "btn btn-primary" %>
+  <% end %> 
 
 
 <% else %>
@@ -177,6 +180,31 @@
         <% end %>
         <small> Describenos por qué quieres mejorar tu permiso </small>
       </div>  
+    <% end %>
+  </div>
+
+  <div>
+    <h3> Inscribete en alguna de las siguientes listas de correos!  </h3>
+    <%= form_for(:notification, url: update_path, method: :post) do |f| %>
+      <b>Información para músicos</b>
+      <% n1 = Notification.by_user_and_type([ current_user.id, 1]).any? %>
+      <% n2 = Notification.by_user_and_type([ current_user.id, 2]).any? %>
+      <% n3 = Notification.by_user_and_type([ current_user.id, 3]).any? %>
+      <%= f.check_box    :musico, checked: n1 %>
+      <%= f.hidden_field :n1,  value: n1 %>
+      <br>
+      <b>Información para músicologos</b>
+      <%= f.check_box :musicologo, checked: n2 %>
+      <%= f.hidden_field :n2,  value: n2 %>
+      <br>
+      <b>Información para melómanos</b>
+      <%= f.check_box :melomano, checked: n3 %>
+      <%= f.hidden_field :n3,  value: n3 %>
+      <br>
+      <%= f.hidden_field :user_id, value: current_user.id %>
+      <%= f.submit "Enviar"%>
+      <br>
+      <small>Recuerda presionar "Enviar" cada vez que quieras realizar un cambio.</small>
     <% end %>
   </div>
 <% end %>

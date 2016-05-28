@@ -6,7 +6,7 @@ class UsersController < ApplicationController
                         group_id: 4)
     @user.update_attribute(:password, params[:user][:password])
     log_in @user
-    redirect_to root_url
+    redirect_to me_url
   end
 
   def register
