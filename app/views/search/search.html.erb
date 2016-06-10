@@ -84,7 +84,7 @@
 <% end%>
 
 
-<% if current_user.privileged_user? %>
+<% if logged_in? && current_user.privileged_user? %>
   <h2> Aporta con nuevo contenido! </h2>
   <%= form_for(:contribution, url: add_contribution_path, method: :get) do |f| %>
     <%= f.label :Nombre %>
@@ -97,6 +97,7 @@
     </p>
     <%= f.submit "Enviar", class: "btn btn-primary" %>
   <% end %>
+
 <% end%>
 
 </body>
