@@ -59,9 +59,20 @@
         </div>
         <!-- /.container -->
     </nav>
+    <div class="container">
+        
+        <div class="col-md-12">
+            <img class="img-responsive img-rounded" src="assets/logo.png" alt="">
+        </div>
+    </div>
     
 </head>
 <body>
+
+<div class="container">
+    <div class="row">
+    <div class="col-md-2"></div>
+        <div class="col-md-4">
 
 <% if @scraper_results.empty? and @results.empty? %>
   <h2> No se encontraron resultados para esta búsqueda </h2>
@@ -69,17 +80,19 @@
 <% else %>
   <ul>
     <% @scraper_results.each do |cultor, url| %>
-    	<li> <%= link_to cultor, url %> </li>
+        <li> <%= link_to cultor, url %> </li>
     <% end%>
 
-    <% @results.each do |result| %>
-      <li>  
-        <b><%= result[0] %>: </b>
-        <%= result[1] %>
-        </p>
-        <small>Subido por: <%= result[2] %></small>
-      </li>
-    <% end%>    
+    <% if logged_in? %>
+      <% @results.each do |result| %>
+        <li>  
+          <b><%= result[0] %>: </b>
+          <%= result[1] %>
+          </p>
+          <small>Subido por: <%= result[2] %></small>
+        </li>
+      <% end%>
+    <% end %>    
   </ul>
 <% end%>
 
@@ -100,4 +113,7 @@
 
 <% end%>
 
+        </div>
+    </div>
+</div>
 </body>
