@@ -12,7 +12,7 @@ class MailingController < ApplicationController
 
     subject = params[:mail][:subject]
     body    = params[:mail][:body]
-    list.each {|notification| MailingList.send_to(notification.user_id, subject, body)}
+    list.each {|notification| MailingList.send_to(notification.user_id, subject, body).deliver}
     
     redirect_to lists_url
   end
