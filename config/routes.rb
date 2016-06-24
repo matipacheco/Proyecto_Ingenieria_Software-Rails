@@ -38,7 +38,5 @@ Rails.application.routes.draw do
   get 'send_mails'  => 'notifications#send_mail'
   post 'remove'     => 'notifications#remove_form_list'
 
-  post 'mail_to_musicos'      => 'mailing#mail_to_musicos'
-  post 'mail_to_musicologos'  => 'mailing#mail_to_musicologos'
-  post 'mail_to_melomanos'    => 'mailing#mail_to_melomanos'
+  post 'mail_to'      => 'mailing#mail_to'
 end
