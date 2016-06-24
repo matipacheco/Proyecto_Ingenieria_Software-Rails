@@ -107,7 +107,14 @@
     </tbody>
   </table>
 
-  <%= form_for(:blank, url: send_mails_path, method: :get) do |f| %>
+  <%= form_for(:mail, url: mail_to_path, method: :post) do |f| %>
+    <%= f.text_field :subject %>
+    Asunto
+    <br>
+    <%= f.text_field :body %>
+    Contenido
+    <br>
+    <%= f.hidden_field :notification_type_id, value: 1 %>
     <%= f.submit "Enviar Correos", class: "btn btn-primary" %>
   <% end %> 
 <% end %>
@@ -144,7 +151,14 @@
     </tbody>
   </table>
 
-  <%= form_for(:blank, url: send_mails_path, method: :get) do |f| %>
+  <%= form_for(:mail, url: mail_to_path, method: :post) do |f| %>
+    <%= f.text_field :subject %>
+    Asunto
+    <br>
+    <%= f.text_field :body %>
+    Contenido
+    <br>
+    <%= f.hidden_field :notification_type_id, value: 2 %>
     <%= f.submit "Enviar Correos", class: "btn btn-primary" %>
   <% end %>
 <% end %>
@@ -181,7 +195,14 @@
     </tbody>
   </table>
 
-  <%= form_for(:blank, url: send_mails_path, method: :get) do |f| %>
+  <%= form_for(:mail, url: mail_to_path, method: :post) do |f| %>
+    <%= f.text_field :subject %>
+    Asunto
+    <br>
+    <%= f.text_field :body %>
+    Contenido
+    <br>
+    <%= f.hidden_field :notification_type_id, value: 3 %>
     <%= f.submit "Enviar Correos", class: "btn btn-primary" %>
   <% end %>
 <% end %>
