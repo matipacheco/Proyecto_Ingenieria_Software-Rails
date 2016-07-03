@@ -163,6 +163,20 @@
 
 
 <div class="container">
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-5"> 
+      <br>
+        <%= form_for(:contacts, url: contacts_path, method: :get) do |f| %>
+        <%= f.submit "Ver Contactos de Facebook", class: "btn btn-primary" %>
+        <% end %> 
+    </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="container">
 <div class="row">
 <div class="col-md-3"></div>
 <div class="col-md-4"> 

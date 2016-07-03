@@ -39,4 +39,6 @@ Rails.application.routes.draw do
   post 'remove'     => 'notifications#remove_form_list'
 
   post 'mail_to'      => 'mailing#mail_to'
+
+  get 'contacts'       => 'facebook#index'
 end
