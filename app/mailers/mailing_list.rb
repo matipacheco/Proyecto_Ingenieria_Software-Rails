@@ -5,7 +5,7 @@ class MailingList < ActionMailer::Base
     @body    = body
 
     mail to: @user.email, subject: @subject do |f|
-      f.html { render 'send_to' }
+      f.html { render 'mails/mailing_list/send_to'}
     end    
   end
 end
